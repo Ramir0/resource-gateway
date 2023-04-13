@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: resource-gateway
+  profiles:
+    default: dev
+  config:
+    import: optional:configserver:http://${CONFIG_SERVER_HOSTNAME}:8090
+  cloud:
+    gateway:
+      routes:
+        ## Resource Service
+        - id: resource-service
+          uri: lb://resource-service
+          predicates:
+            - Path=/resource-service/**
+          filters:
+            - StripPrefix=1
+        ## Song Service
+        - id: song-service
+          uri: lb://song-service
+          predicates:
+            - Path=/song-service/**
+          filters:
+            - StripPrefix=1
+        ## Resource Processor
+        - id: resource-processor
+          uri: lb://resource-processor
+          predicates:
+            - Path=/resource-processor/**
+          filters:
+            - StripPrefix=1
