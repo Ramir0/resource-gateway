@@ -31,3 +31,10 @@ spring:
             - Path=/resource-processor/**
           filters:
             - StripPrefix=1
+        ## Storage Service
+        - id: storage-service
+          uri: lb://storage-service
+          predicates:
+            - Path=/storage-service/**
+          filters:
+            - StripPrefix=1
