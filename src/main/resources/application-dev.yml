@@ -32,3 +32,17 @@ spring:
             - Path=/storage-service/**
           filters:
             - StripPrefix=1
+        ## Grafana
+        - id: resource-grafana
+          uri: http://localhost:3000
+          predicates:
+            - Path=/grafana/**
+          filters:
+            - RewritePath=/grafana/(?<path>.*), /$\{path}
+        ## Kibana
+        - id: resource-kibana
+          uri: http://localhost:5601
+          predicates:
+            - Path=/kibana/**
+          filters:
+            - RewritePath=/kibana/(?<path>.*), /$\{path}

@@ -38,3 +38,17 @@ spring:
             - Path=/storage-service/**
           filters:
             - StripPrefix=1
+        ## Grafana
+        - id: resource-grafana
+          uri: http://kubernetes.docker.internal:3000
+          predicates:
+            - Path=/grafana/**
+          filters:
+            - RewritePath=/grafana/(?<path>.*), /$\{path}
+        ## Kibana
+        - id: resource-kibana
+          uri: http://kubernetes.docker.internal:5601
+          predicates:
+            - Path=/kibana/**
+          filters:
+            - RewritePath=/kibana/(?<path>.*), /$\{path}
