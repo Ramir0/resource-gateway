@@ -9,6 +9,12 @@ spring:
     import: optional:configserver:http://${CONFIG_SERVER_HOSTNAME}:8090
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
       routes:
         ## Resource Service
         - id: resource-service
