@@ -38,6 +38,13 @@ spring:
             - Path=/storage-service/**
           filters:
             - StripPrefix=1
+        ## Security Service
+        - id: security-service
+          uri: lb://security-service
+          predicates:
+            - Path=/security-service/**
+          filters:
+            - StripPrefix=1
         ## Grafana
         - id: resource-grafana
           uri: http://kubernetes.docker.internal:3000
