@@ -9,6 +9,8 @@ spring:
     import: optional:configserver:http://${CONFIG_SERVER_HOSTNAME}:8090
   cloud:
     gateway:
+      metrics:
+        enabled: true
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -52,16 +54,22 @@ spring:
           filters:
             - StripPrefix=1
         ## Grafana
-        - id: resource-grafana
-          uri: http://kubernetes.docker.internal:3000
+        - id: resource-nginx-grafana
+          uri: http://resource-nginx-grafana
           predicates:
             - Path=/grafana/**
-          filters:
-            - RewritePath=/grafana/(?<path>.*), /$\{path}
         ## Kibana
         - id: resource-kibana
-          uri: http://kubernetes.docker.internal:5601
+          uri: http://resource-kibana:5601
           predicates:
             - Path=/kibana/**
           filters:
-            - RewritePath=/kibana/(?<path>.*), /$\{path}
+            - RewritePath=/kibana(?<path>.*), /$\{path}
+logging:
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
